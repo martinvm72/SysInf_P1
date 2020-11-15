@@ -20,9 +20,9 @@ void work(){
 
 void* producer(void* param){
     while(1){
-        sem_wait(&empty); //Wait or fill an empty case
         work();
         int a=rand()-rand();
+        sem_wait(&empty); //Wait to fill an empty case
         pthread_mutex_lock(&mutex);
         if(prod>=SIZE) break;
         int i=0;
@@ -31,30 +31,30 @@ void* producer(void* param){
         isEmpty[i]=0;
         prod++;
         pthread_mutex_unlock(&mutex);
-        sem_post(&full);// say to consumer than one more case is full
+        sem_post(&full);// say to consumers that one more case is full
     }
     pthread_mutex_unlock(&mutex);//unlock the buffer because it wasn't close because of the break
-    sem_post(&full);
+    sem_post(&empty);//awake threads that are waiting (they will quite boucle because prod=SIZE )
+    sem_post(&full);// all have been produce so we can awake all read threads 
+    // if we don't do that there will be only 1024 post on full and so no one consumer thread will finish
     return NULL;
 }
 void *consumer(void *param){
     while(1){
-        sem_wait(&full);
+        sem_wait(&full);//wait a full case
         pthread_mutex_lock(&mutex);
         if(cons>=SIZE) break;
         int i=0;
-        while(isEmpty[i]){
-            i++;
-        }
+        while(isEmpty[i]) i++;//find a full case
         isEmpty[i]=1;
         int a=buffer[i];
         cons++;
         pthread_mutex_unlock(&mutex);
-        sem_post(&empty);
+        sem_post(&empty);// say to producers that one more case is empty
         work();
     }
-    pthread_mutex_unlock(&mutex);
-    sem_post(&full);
+    pthread_mutex_unlock(&mutex);//unlock the buffer because it wasn't close because of the break
+    sem_post(&full);//awake threads that are waiting (they will quite boucle because cons=SIZE )
     return NULL;
 }
 
@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
     //Create the number of threads requested
     int nbrProd=atoi(argv[1]); 
     int nbrCons=atoi(argv[2]);
-    //printf("prod : %d   cons : %d\n",nbrProd,nbrCons);
+    
     pthread_t thread_prod[nbrProd];
     pthread_t thread_cons[nbrCons];
 
@@ -90,9 +90,13 @@ int main(int argc, char const *argv[])
     {
         pthread_join(thread_prod[i],NULL);
     }
+    //sem_post(&full);(another way to solve the problem)
     for (int i = 0; i < nbrCons; i++)
     {
         pthread_join(thread_cons[i],NULL);
     }
+    sem_destroy(&full);
+    sem_destroy(&empty);
+    pthread_mutex_destroy(&mutex);
     return 0;
 }
