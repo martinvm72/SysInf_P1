@@ -9,6 +9,7 @@ sem_t w_sem; //semaphore for the writers
 sem_t r_sem; //semaphore for the readers
 pthread_mutex_t mutex_writersCount; //mutex for writersCount
 pthread_mutex_t mutex_readerCount; //mutex for readersCount
+pthread_mutex_t z;
 int writersCount = 0; //number of writers
 int readersCount = 0; //number of readers
 
@@ -20,7 +21,7 @@ void* writer(void* params){
     for(int i=0; i<640; i++){
         pthread_mutex_lock(&mutex_writersCount);
         writersCount++;
-        if(readersCount==1){ //first writer
+        if(writersCount==1){ //first writer
             sem_wait(&r_sem); //wait for the readers to finish reading
         }
         pthread_mutex_unlock(&mutex_writersCount);
@@ -31,7 +32,7 @@ void* writer(void* params){
 
         pthread_mutex_lock(&mutex_writersCount);
         writersCount--;
-        if(writersCount==0){ //last reader
+        if(writersCount==0){ //last writter
             sem_post(&r_sem);
         }
         pthread_mutex_unlock(&mutex_writersCount);
@@ -40,15 +41,16 @@ void* writer(void* params){
 
 void* reader(void* params){
     for(int i=0; i<2560; i++){
-        pthread_mutex_lock(&mutex_readerCount);
+        pthread_mutex_lock(&z);
         sem_wait(&r_sem);
+        pthread_mutex_lock(&mutex_readerCount);
         readersCount++;
         if(readersCount==1){ //first reader
             sem_wait(&w_sem); //wait for the writers to finish writing
         }
         pthread_mutex_unlock(&mutex_readerCount);
         sem_post(&r_sem);
-
+        pthread_mutex_unlock(&z);
         read();
 
         pthread_mutex_lock(&mutex_readerCount);
@@ -68,6 +70,9 @@ int main(int argc, char const *argv[])
     pthread_t threads_r[nb_r];
     sem_init(&w_sem, 0, 1);
     sem_init(&r_sem, 0, 1);
+    pthread_mutex_init(&mutex_readerCount,NULL);
+    pthread_mutex_init(&mutex_writersCount,NULL);
+    pthread_mutex_init(&z,NULL);
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
