@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Nbr threads, Time">prodCons.csv
+echo "Nbr threads,Time">prodCons.csv
 gcc producer_consumer.c -o outprod -lpthread
 for j in {3..15..2};do
     echo $j
@@ -18,7 +18,7 @@ done
 echo "Producter consumer done"
 
 
-echo "Nbr threads, Time">philosophes.csv
+echo "Nbr threads,Time">philosophes.csv
 gcc philosophes.c -o outphilo -lpthread
 for j in {2..16};do
     echo $j
@@ -30,7 +30,7 @@ done
 echo "Philosophes done"
 
 
-echo "Nbr threads, Time">readerWriter.csv
+echo "Nbr threads,Time">readerWriter.csv
 gcc readers_writers.c -o outRW -lpthread
 for j in {3..15..2};do
     echo $j
