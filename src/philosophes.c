@@ -31,7 +31,7 @@ void* philosophe(void* params){
         fork1 = num;
         fork2 = num+1;
     }
-    for(int i=0; i<10000; i++){ //10000 philosophe cycles
+    for(int i=0; i<1000000; i++){ //1M philosophe cycles
         think();
         sem_wait(&forks[fork1]);
         sem_wait(&forks[fork2]);
