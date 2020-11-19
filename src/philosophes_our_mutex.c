@@ -1,14 +1,13 @@
+#include "test_and_test_and_set.c"
 #include<stdlib.h>
 #include<stdio.h>
 #include<stdint.h>
-#include <semaphore.h>
-#include <pthread.h>
-#include <time.h>
+#include<pthread.h>
 
 struct args { //Strcuture of the parameteres for the threads
     int num;
     int N;
-    pthread_mutex_t* forks;
+    int* forksIds;
 };
 
 void think(){} //Guru Meditation
@@ -19,7 +18,7 @@ void eat(){} //Yummy
 void* philosophe(void* params){
     int num = ((struct args*)params)->num;
     int N = ((struct args*)params)->N;
-    pthread_mutex_t* forks = ((struct args*)params)->forks;
+    int* forksIds = ((struct args*)params)->forksIds;
     int fork1;
     int fork2;
 
@@ -33,11 +32,11 @@ void* philosophe(void* params){
     }
     for(int i=0; i<1000000; i++){ //10000 philosophe cycles
         think();
-        pthread_mutex_lock(&forks[fork1]);
-        pthread_mutex_lock(&forks[fork2]);
+        lock(forksIds[fork1]);
+        lock(forksIds[fork2]);
         eat();
-        pthread_mutex_unlock(&forks[fork2]);
-        pthread_mutex_unlock(&forks[fork1]);
+        unlock(forksIds[fork1]);
+        unlock(forksIds[fork2]);
     }
     return NULL;
 }
@@ -46,10 +45,10 @@ int main(int argc, char const *argv[])
 {
     int N = atoi(argv[1]);
     pthread_t threads[N];
-    pthread_mutex_t forks[N];
+    int forksIds[N];
 
     for(int i = 0; i<N; i++){ //Initialize forks semaphores
-        pthread_mutex_init(&forks[i], NULL); //1 if a fork is free, 0 if it's not
+        forksIds[i]=init(); //1 if a fork is free, 0 if it's not
     }
 
     for (int i = 0; i < N; i++)
@@ -57,7 +56,7 @@ int main(int argc, char const *argv[])
         struct args* params = (struct args *)malloc(sizeof(struct args));
         params->num = i;
         params->N = N;
-        params->forks = forks;
+        params->forksIds = forksIds;
         pthread_create(&threads[i], NULL, &philosophe, (void *)params);
     }
 
@@ -67,7 +66,7 @@ int main(int argc, char const *argv[])
     }
 
     for(int i = 0; i<N; i++){ //Destroy forks semaphores
-        pthread_mutex_destroy(&forks[i]);
+        destroy(forksIds[i]);
     }
     return 0;
 }

@@ -3,7 +3,7 @@
 #include<stdint.h>
 #include <semaphore.h>
 #include <pthread.h>
-#include <time.h>
+#include<sys/time.h>
 #define N 8
 #define SIZE 1024
 int buffer[N];
@@ -14,7 +14,6 @@ sem_t empty;// semaphore, val = nbr of empty case
 sem_t full;// semaphore, val = nbr of not empty case
 pthread_mutex_t mutex;// buffer's mutex
 void work(){
-    clock_t start=clock();
     while(rand()>RAND_MAX/10000);
 }
 
@@ -24,16 +23,19 @@ void* producer(void* param){
         int a=rand()-rand();
         sem_wait(&empty); //Wait to fill an empty case
         pthread_mutex_lock(&mutex);
-        if(prod>=SIZE) break;
+        if(prod>=SIZE) {
+            pthread_mutex_unlock(&mutex);
+            break;
+        }
         int i=0;
         while(!isEmpty[i]) i++;//find an empty place
-        buffer[i]=prod;
+        buffer[i]=a;
         isEmpty[i]=0;
         prod++;
         pthread_mutex_unlock(&mutex);
         sem_post(&full);// say to consumers that one more case is full
     }
-    pthread_mutex_unlock(&mutex);//unlock the buffer because it wasn't close because of the break
+    //pthread_mutex_unlock(&mutex);//unlock the buffer because it wasn't close because of the break
     sem_post(&empty);//awake threads that are waiting (they will quite boucle because prod=SIZE )
     sem_post(&full);// all have been produce so we can awake all read threads 
     // if we don't do that there will be only 1024 post on full and so no one consumer thread will finish
@@ -43,7 +45,10 @@ void *consumer(void *param){
     while(1){
         sem_wait(&full);//wait a full case
         pthread_mutex_lock(&mutex);
-        if(cons>=SIZE) break;
+        if(cons>=SIZE) {
+            pthread_mutex_unlock(&mutex);
+            break;
+        }
         int i=0;
         while(isEmpty[i]) i++;//find a full case
         isEmpty[i]=1;
@@ -53,7 +58,6 @@ void *consumer(void *param){
         sem_post(&empty);// say to producers that one more case is empty
         work();
     }
-    pthread_mutex_unlock(&mutex);//unlock the buffer because it wasn't close because of the break
     sem_post(&full);//awake threads that are waiting (they will quite boucle because cons=SIZE )
     return NULL;
 }
@@ -89,11 +93,13 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < nbrProd; i++)
     {
         pthread_join(thread_prod[i],NULL);
+        //printf("prod\n");
     }
-    //sem_post(&full);(another way to solve the problem)
+    //sem_post(&full);//(another way to solve the problem)
     for (int i = 0; i < nbrCons; i++)
     {
         pthread_join(thread_cons[i],NULL);
+        //printf("cons\n");
     }
     sem_destroy(&full);
     sem_destroy(&empty);
