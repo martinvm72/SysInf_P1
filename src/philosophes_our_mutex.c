@@ -32,11 +32,11 @@ void* philosophe(void* params){
     }
     for(int i=0; i<1000000; i++){ //10000 philosophe cycles
         think();
-        lock(forksIds[fork1]);
-        lock(forksIds[fork2]);
+        mutex_lock(forksIds[fork1]);
+        mutex_lock(forksIds[fork2]);
         eat();
-        unlock(forksIds[fork1]);
-        unlock(forksIds[fork2]);
+        mutex_unlock(forksIds[fork1]);
+        mutex_unlock(forksIds[fork2]);
     }
     return NULL;
 }
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
     int forksIds[N];
 
     for(int i = 0; i<N; i++){ //Initialize forks semaphores
-        forksIds[i]=init(); //1 if a fork is free, 0 if it's not
+        forksIds[i]=mutex_init(); //1 if a fork is free, 0 if it's not
     }
 
     for (int i = 0; i < N; i++)
@@ -66,7 +66,7 @@ int main(int argc, char const *argv[])
     }
 
     for(int i = 0; i<N; i++){ //Destroy forks semaphores
-        destroy(forksIds[i]);
+        mutex_destroy(forksIds[i]);
     }
     return 0;
 }
