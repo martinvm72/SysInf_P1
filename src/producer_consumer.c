@@ -4,7 +4,7 @@
 #include <semaphore.h>
 #include <pthread.h>
 #include <time.h>
-#define N 8
+#define N 128
 #define SIZE 1024
 int buffer[N];
 int isEmpty[N];// array to know which case of the buffer is full
@@ -14,7 +14,6 @@ sem_t empty;// semaphore, val = nbr of empty case
 sem_t full;// semaphore, val = nbr of not empty case
 pthread_mutex_t mutex;// buffer's mutex
 void work(){
-    clock_t start=clock();
     while(rand()>RAND_MAX/10000);
 }
 

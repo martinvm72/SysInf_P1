@@ -32,5 +32,5 @@ void unlock(int id){
 }
 void destroy(int id){
     free(mutex[id]);
-    isInit[id]=0;
+    isInit[id]=NULL;
 }
