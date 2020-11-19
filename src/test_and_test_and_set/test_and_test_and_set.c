@@ -59,6 +59,7 @@ int sem_init(int init_val){
             if(mutexId<0) return -1;
             sem_mutex[i]=mutexId;
             vals[i]=init_val;
+            semInit[i]=1;
             return i;
         }
     }

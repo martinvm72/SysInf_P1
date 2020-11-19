@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include<stdint.h>
 #include<sys/time.h>
-#include "semaphore.c"
-
+#include "test_and_test_and_set.c"
 void work(float a){
     while (rand()>RAND_MAX/8);
 }
@@ -62,6 +61,7 @@ int main(int argc, char const *argv[])
     sem_wait(a);
     sem_wait(a);
     sem_post(a);
+    sem_wait(a);
     sem_wait(a);
     return 0;
 }
