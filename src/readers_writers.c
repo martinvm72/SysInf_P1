@@ -36,6 +36,7 @@ void* writer(void* params){
             sem_post(&r_sem);
         }
         pthread_mutex_unlock(&mutex_writersCount);
+        while(rand()>RAND_MAX/10000);
     }
 }
 
@@ -59,13 +60,14 @@ void* reader(void* params){
             sem_post(&w_sem);
         }
         pthread_mutex_unlock(&mutex_readerCount);
+        while(rand()>RAND_MAX/10000);
     }
 }
 
 int main(int argc, char const *argv[])
 {
-    int nb_w = atoi(argv[2]); //number of writers
-    int nb_r = atoi(argv[1]); //number of readers
+    int nb_w = atoi(argv[1]); //number of writers
+    int nb_r = atoi(argv[2]); //number of readers
     pthread_t threads_w[nb_w];
     pthread_t threads_r[nb_r];
     sem_init(&w_sem, 0, 1);
