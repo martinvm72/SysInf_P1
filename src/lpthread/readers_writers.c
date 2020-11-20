@@ -36,7 +36,7 @@ void* writer(void* params){
             sem_post(&r_sem);
         }
         pthread_mutex_unlock(&mutex_writersCount);
-        while(rand()>RAND_MAX/1000);
+        while(rand()>RAND_MAX/10000);
     }
 }
 
@@ -60,7 +60,7 @@ void* reader(void* params){
             sem_post(&w_sem);
         }
         pthread_mutex_unlock(&mutex_readerCount);
-        while(rand()>RAND_MAX/1000);
+        while(rand()>RAND_MAX/10000);
     }
 }
 

@@ -18,7 +18,7 @@ void work(){
 
 void* producer(void* param){
     while(1){
-        work();
+        while(rand()>RAND_MAX/10000);
         int a=rand()-rand();
         sem_wait(sem_empty); //Wait to fill an empty case
         mutex_lock(mutexID);
@@ -55,7 +55,7 @@ void *consumer(void *param){
         cons++;
         mutex_unlock(mutexID);
         sem_post(sem_empty);// say to producers that one more case is empty
-        work();
+        while(rand()>RAND_MAX/10000);
     }
     sem_post(sem_full);//awake threads that are waiting (they will quite boucle because cons=SIZE )
     return NULL;
