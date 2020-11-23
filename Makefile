@@ -3,89 +3,76 @@
 # 'make clean'  removes all .o and executable files
 #
 
-# define the C compiler to use
 CC = gcc
+FLAGS := -g0 -lpthread
 
-# define any compile-time flags
-CFLAGS	:= -Wall -Wextra -g
+SRC	:= src
+OUT := output
+S_LP := $(SRC)/lpthread
+S_TS := $(SRC)/test_and_set
+S_TTS := $(SRC)/test_and_test_and_set
+S_BTTS := $(SRC)/backoff_test_and_test_and_set
 
-# define library paths in addition to /usr/lib
-#   if I wanted to include libraries not in /usr/lib I'd specify
-#   their path using -Lpath, something like:
-LFLAGS =
+OUT := output
+O_LP := $(OUT)/lpthread
+O_TS := $(OUT)/test_and_set
+O_TTS := $(OUT)/test_and_test_and_set
+O_BTTS := $(OUT)/backoff_test_and_test_and_set
 
-# define output directory
-OUTPUT	:= output
 
-# define source directory
-SRC		:= src
+#all: outFolder $(IN_NAME)
+#	@echo "Simple build of $(IN_NAME)"
+#	$(CC) $(IN_NAME) -std=c99 -o $(OUT_FOLDER)/$(OUT_NAME)
+#	@echo "Build completed. Output file: $(OUT_FOLDER)/$(OUT_NAME)"
+.SILENT:
 
-# define include directory
-INCLUDE	:= include
+all :
+	@echo "Complete build of the project in progress..."
+	make outFolder
+	make basic
+	make tSet
+	make t2Set
+	make bt2Set
+	@echo "Build completed. Output folder: $(OUT)"
 
-# define lib directory
-LIB		:= lib
+run: $(SRC)
+	bash $</scripts/scriptCSV_all.sh 2
 
-ifeq ($(OS),Windows_NT)
-MAIN	:= main.exe
-SOURCEDIRS	:= $(SRC)
-INCLUDEDIRS	:= $(INCLUDE)
-LIBDIRS		:= $(LIB)
-FIXPATH = $(subst /,\,$1)
-RM			:= del /q /f
-MD	:= mkdir
-else
-MAIN	:= main
-SOURCEDIRS	:= $(shell find $(SRC) -type d)
-INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
-LIBDIRS		:= $(shell find $(LIB) -type d)
-FIXPATH = $1
-RM = rm -f
-MD	:= mkdir -p
-endif
-
-# define any directories containing header files other than /usr/include
-INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
-
-# define the C libs
-LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%))
-
-# define the C source files
-SOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
-
-# define the C object files 
-OBJECTS		:= $(SOURCES:.c=.o)
-
-#
-# The following part of the makefile is generic; it can be used to 
-# build any executable just by changing the definitions above and by
-# deleting dependencies appended to the file from 'make depend'
-#
-
-OUTPUTMAIN	:= $(call FIXPATH,$(OUTPUT)/$(MAIN))
-
-all: $(OUTPUT) $(MAIN)
-	@echo Executing 'all' complete!
-
-$(OUTPUT):
-	$(MD) $(OUTPUT)
-
-$(MAIN): $(OBJECTS) 
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(OBJECTS) $(LFLAGS) $(LIBS)
-
-# this is a suffix replacement rule for building .o's from .c's
-# it uses automatic variables $<: the name of the prerequisite of
-# the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
-# (see the gnu make manual section about automatic variables)
-.c.o:
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
-
-.PHONY: clean
 clean:
-	$(RM) $(OUTPUTMAIN)
-	$(RM) $(call FIXPATH,$(OBJECTS))
-	@echo Cleanup complete!
+	rm -fr $(OUT)
+	@echo "Cleaning completed."
 
-run: all
-	./$(OUTPUTMAIN)
-	@echo Executing 'run: all' complete!
+T22: $(SRC)
+	make outFolder
+	$(CC) $</Tache2_2.c -o $(O_LP)/T2_2.out $(FLAGS)
+
+basic: $(S_LP)
+	make outFolder
+	$(CC) $</philosophes.c -o $(O_LP)/philo.out $(FLAGS)
+	$(CC) $</producer_consumer.c -o $(O_LP)/prod_cons.out $(FLAGS)
+	$(CC) $</readers_writers.c -o $(O_LP)/read_write.out $(FLAGS)
+
+tSet: $(S_TS)
+	make outFolder
+	$(CC) $</philosophes_ts.c -o $(O_TS)/philo.out $(FLAGS)
+	$(CC) $</producer_consumer_ts.c -o $(O_TS)/prod_cons.out $(FLAGS)
+	$(CC) $</readers_writers_ts.c -o $(O_TS)/read_write.out $(FLAGS)
+
+t2Set: $(S_TTS)
+	make outFolder
+	$(CC) $</philosophes_tts.c -o $(O_TTS)/philo.out $(FLAGS)
+	$(CC) $</producer_consumer_tts.c -o $(O_TTS)/prod_cons.out $(FLAGS)
+	$(CC) $</readers_writers_tts.c -o $(O_TTS)/read_write.out $(FLAGS)
+
+bt2Set: $(S_BTTS)
+	make outFolder
+	$(CC) $</philosophes_btts.c -o $(O_BTTS)/philo.out $(FLAGS)
+	$(CC) $</producer_consumer_btts.c -o $(O_BTTS)/prod_cons.out $(FLAGS)
+	$(CC) $</readers_writers_btts.c -o $(O_BTTS)/read_write.out $(FLAGS)
+
+outFolder:
+	mkdir -p $(OUT)
+	mkdir -p $(O_LP)
+	mkdir -p $(O_TS)
+	mkdir -p $(O_TTS)
+	mkdir -p $(O_BTTS)

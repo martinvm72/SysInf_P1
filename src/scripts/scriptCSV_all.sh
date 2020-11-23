@@ -1,5 +1,5 @@
 #!/bin/bash
-bash scriptCSV_lpthread.sh
-bash scriptCSV_ts.sh
-bash scriptCSV_tts.sh
-bash scriptCSV_btts.sh
+bash src/scripts/scriptCSV_lpthread.sh $1
+bash src/scripts/scriptCSV_ts.sh $1
+bash src/scripts/scriptCSV_tts.sh $1
+bash src/scripts/scriptCSV_btts.sh $1
