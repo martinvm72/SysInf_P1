@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statistics as stt
 
-philo = pd.read_csv("CSV/ts/philosophesAWS.csv")
-prodCons = pd.read_csv("CSV/ts/prodConsAWS.csv")
-readWrite = pd.read_csv("CSV/ts/readerWriterAWS.csv")
+philo = pd.read_csv("CSV/lpthread/philosophes.csv")
+prodCons = pd.read_csv("CSV/lpthread/prodCons.csv")
+readWrite = pd.read_csv("CSV/lpthread/readerWriter.csv")
 
 def recurMax(l):
     rep = 0
