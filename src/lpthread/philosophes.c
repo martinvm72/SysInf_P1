@@ -31,7 +31,7 @@ void* philosophe(void* params){
         fork1 = num;
         fork2 = num+1;
     }
-    for(int i=0; i<10000; i++){ //1M philosophe cycles
+    for(int i=0; i<100000; i++){ //1M philosophe cycles
         think();
         pthread_mutex_lock(&forks[fork1]);
         pthread_mutex_lock(&forks[fork2]);
