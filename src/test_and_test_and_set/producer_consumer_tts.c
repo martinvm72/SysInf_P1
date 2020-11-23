@@ -3,7 +3,7 @@
 #include<stdint.h>
 #include "test_and_test_and_set.c"
 #include<pthread.h>
-#define N 8
+#define N 16
 #define SIZE 1024
 int buffer[N];
 int isEmpty[N];// array to know which case of the buffer is full
@@ -12,13 +12,11 @@ int prod=0;// number of data already produceed
 int sem_empty;// semaphore, val = nbr of empty case
 int sem_full;// semaphore, val = nbr of not empty case
 int mutexID;// buffer's mutex
-void work(){
-    while(rand()>RAND_MAX/1000);
-}
+void work(){}
 
 void* producer(void* param){
     while(1){
-        while(rand()>RAND_MAX/10000);
+        while(rand()>RAND_MAX/1000);
         int a=rand()-rand();
         sem_wait(sem_empty); //Wait to fill an empty case
         mutex_lock(mutexID);
@@ -55,7 +53,7 @@ void *consumer(void *param){
         cons++;
         mutex_unlock(mutexID);
         sem_post(sem_empty);// say to producers that one more case is empty
-        while(rand()>RAND_MAX/10000);
+        while(rand()>RAND_MAX/1000);
     }
     sem_post(sem_full);//awake threads that are waiting (they will quite boucle because cons=SIZE )
     return NULL;
