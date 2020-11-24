@@ -30,7 +30,7 @@ void* writer(void* params){
         write();
         sem_post(w_sem);
 
-        mutex_unlock(mutex_writersCount);
+        mutex_lock(mutex_writersCount);
         writersCount--;
         if(writersCount==0){ //last writter
             sem_post(r_sem);
