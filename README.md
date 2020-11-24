@@ -1,5 +1,5 @@
 # SysInf_P1
-Martin Van Mollekot & Arthur Vandrogenbroek
+Martin Van Mollekot & Arthur Vandroogenbroek
 
 ## Commandes
 make all: Compile le projet entier
