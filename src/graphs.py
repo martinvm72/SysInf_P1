@@ -4,7 +4,7 @@ import numpy as np
 import statistics as stt
 
 philo = pd.read_csv("CSV/lpthread/philosophes.csv")
-prodCons = pd.read_csv("CSV/lpthread/prodCons.csv")
+prodCons = pd.read_csv("prodConse.csv")
 readWrite = pd.read_csv("CSV/lpthread/readerWriter.csv")
 
 def recurMax(l):

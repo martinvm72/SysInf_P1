@@ -30,7 +30,7 @@ void* writer(void* params){
         write();
         sem_post(w_sem);
 
-        mutex_unlock(mutex_writersCount);
+        mutex_lock(mutex_writersCount);
         writersCount--;
         if(writersCount==0){ //last writter
             sem_post(r_sem);
@@ -75,6 +75,7 @@ int main(int argc, char const *argv[])
     mutex_readerCount=mutex_init();
     mutex_writersCount=mutex_init();
     z=mutex_init();
+    
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
