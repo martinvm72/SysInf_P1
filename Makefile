@@ -36,7 +36,7 @@ all :
 	@echo "Build completed. Output folder: $(OUT)"
 
 run: $(SRC)
-	bash $</scripts/scriptCSV_all.sh 32
+	bash $</scripts/scriptCSV_all.sh 8
 
 clean:
 	rm -fr $(OUT)
