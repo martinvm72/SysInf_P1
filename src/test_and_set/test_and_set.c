@@ -3,8 +3,8 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 //MUTEX
-int *mutex[1024];
-int isInit[1024];
+int *mutex[1024];//array with the value of the mutex (1 if lock 0 if not)
+int isInit[1024];//array that shows if a mutex is init or not
 
 int mutex_init(){
     for(int i=0; i<1024;i++){
@@ -19,7 +19,8 @@ int mutex_init(){
 void mutex_lock(int id){
     int flag=1;
     while(flag==1){
-        asm("movl $1, %%eax;"
+        asm(//asm to exchange atomically 1 with the value of mutex[i] to know if it is already lock or not
+            "movl $1, %%eax;"
             "xchgl %%eax, %1;"
             "movl %%eax, %0" 
             :"=m" (flag) 
@@ -29,7 +30,7 @@ void mutex_lock(int id){
 }
 void mutex_unlock(int id){
     int a=0;
-    asm(
+    asm(//asm to set atomically the value of mutex[i] to 0
         "movl $0, %%eax;"
         "xchgl %%eax, %1;" :"=m" (a) :"m" (*(int*)mutex[id]) :"eax");
 }
@@ -42,9 +43,9 @@ void mutex_destroy(int id){
 //----------------------------------------------------------------------------------------------------------------------
 //SEMAPHORE
 
-int sem_mutex[1024];
-int vals[1024];
-int semInit[1024];
+int sem_mutex[1024];//array with the mutex associated to the semaphore
+int vals[1024];//array with the value of the semaphore
+int semInit[1024];//array that shows if a semaphore is init or not
 
 int sem_init(int init_val){
     if (init_val < 0) return -1;

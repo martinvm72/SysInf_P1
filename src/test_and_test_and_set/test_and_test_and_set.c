@@ -20,7 +20,7 @@ void mutex_lock(int id){
     int flag=1;
     while(flag==1){
         int flag2=*mutex[id];
-        while (flag2!=0){
+        while (flag2!=0){//wait that mutex value is equal to 0 before trying the atomic exchange
             flag2=*mutex[id];
         }
         asm("movl $1, %%eax;"
