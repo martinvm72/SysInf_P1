@@ -13,9 +13,6 @@ int prod=0;// number of data already produceed
 sem_t empty;// semaphore, val = nbr of empty case
 sem_t full;// semaphore, val = nbr of not empty case
 pthread_mutex_t mutex;// buffer's mutex
-void work(){
-    while(rand()>RAND_MAX/100);
-}
 
 void* producer(void* param){
     while(1){

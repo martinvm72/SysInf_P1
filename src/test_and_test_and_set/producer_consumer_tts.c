@@ -12,9 +12,6 @@ int prod=0;// number of data already produceed
 int sem_empty;// semaphore, val = nbr of empty case
 int sem_full;// semaphore, val = nbr of not empty case
 int mutexID;// buffer's mutex
-void work(){
-    while(rand()>RAND_MAX/1000);
-}
 
 void* producer(void* param){
     while(1){
