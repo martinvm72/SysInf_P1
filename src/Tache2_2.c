@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
-#include "test_and_set/test_and_set.c"
+#include "test_and_test_and_set/test_and_test_and_set.c"
 
 struct args { //Strcuture of the parameteres for the threads
     int cycle;
+    int id;
 };
 
 void* lock_test(void* params){
-    int id = mutex_init();
+    int id = ((struct args*)params)->id;
     if(id==-1) printf("OUPS... SOMETHING WENT WRONG!");
     for(int i=0; i<((struct args*)params)->cycle; i++){
         mutex_lock(id);
@@ -28,6 +29,7 @@ int main(int argc, char const *argv[])
     params->cycle= round(6400/N);
     for (int i = 0; i < N; i++)
     {
+        params->id = mutex_init();
         pthread_create(&threads[i], NULL, &lock_test, (void *)params);
     }
     for (int i = 0; i < N; i++)

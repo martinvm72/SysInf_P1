@@ -26,6 +26,7 @@ mega: #tout.
 all : #Compile le projet entier
 	@echo "Complete build of the project in progress..."
 	make outFolder
+	make T22
 	make basic
 	make tSet
 	make t2Set
@@ -33,7 +34,8 @@ all : #Compile le projet entier
 	@echo "Build completed. Output folder: $(OUT)"
 
 run: $(SRC)	#
-	bash $</scripts/scriptCSV_all.sh 16
+	bash $</scripts/script2_2.sh
+	bash $</scripts/scriptCSV_all.sh 3
 
 graphs: $(SRC) #Créés les graphes, à utiliser après avoir créé les CSV
 	python3 $</graphs.py
@@ -52,7 +54,7 @@ cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 
 
 T22: $(SRC) #Compile la tâche 2.2
-	$(CC) $</Tache2_2.c -o $(O_LP)/T2_2.out $(FLAGS)
+	$(CC) $</Tache2_2.c -o $(OUT)/T2_2.out $(FLAGS)
 
 basic: $(S_LP) #Compile les fichiers utilisant lpthread
 	make outFolder
