@@ -20,9 +20,9 @@ void mutex_lock(int id){
     int flag=1;
     while(flag==1){
         asm(//asm to exchange atomically 1 with the value of mutex[i] to know if it is already lock or not
-            "movl $1, %eax;"
-            "xchgl %eax, %1;"
-            "movl %eax, %0" 
+            "movl $1, %%eax;"
+            "xchgl %%eax, %1;"
+            "movl %%eax, %0" 
             :"=m" (flag) 
             :"m" (*(int*)mutex[id]) 
             :"eax");
