@@ -17,7 +17,6 @@ void* lock_test(void* params){
         while(rand()>RAND_MAX/10000);
         mutex_unlock(id);
     }
-    mutex_destroy(id);
     return NULL;
 }
 
@@ -27,14 +26,17 @@ int main(int argc, char const *argv[])
     pthread_t threads[N];
     struct args* params = (struct args *)malloc(sizeof(struct args));
     params->cycle= round(6400/N);
+    int id=mutex_init();
+    printf("%d\n",id);
     for (int i = 0; i < N; i++)
     {
-        params->id = mutex_init();
+        params->id = id;
         pthread_create(&threads[i], NULL, &lock_test, (void *)params);
     }
     for (int i = 0; i < N; i++)
     {
         pthread_join(threads[i], NULL);
     }
+    mutex_destroy(id);
     return 0;
 }
