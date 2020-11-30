@@ -94,6 +94,8 @@ int main(int argc, char const *argv[])
     r_sem=sem_init(1);
     mutex_readerCount=mutex_init();
     mutex_writersCount=mutex_init();
+    mutex_nbrWrite=mutex_init();
+    mutex_nbrRead=mutex_init();
     z=mutex_init();
     for (int i = 0; i <nb_w; i++)
     {

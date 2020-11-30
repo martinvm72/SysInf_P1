@@ -95,6 +95,8 @@ int main(int argc, char const *argv[])
     mutex_readerCount=mutex_init();
     mutex_writersCount=mutex_init();
     z=mutex_init();
+    mutex_nbrWrite=mutex_init();
+    mutex_nbrRead=mutex_init();
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
