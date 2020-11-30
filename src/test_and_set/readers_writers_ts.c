@@ -12,13 +12,25 @@ int mutex_readerCount; //mutex for readersCount
 int z;
 int writersCount = 0; //number of writers
 int readersCount = 0; //number of readers
+int nbrRead = 0; //Nombre total de lectures réalisées
+int nbrWrite = 0; //Nombre total d'écritures réalisées
+int mutex_nbrRead = 0;
+int mutex_nbrWrite = 0;
 
 void write(){}
 
 void read(){}
 
 void* writer(void* params){
-    for(int i=0; i<640; i++){
+    while(1){
+        mutex_lock(mutex_nbrWrite);
+        if(nbrWrite>=640){
+            mutex_unlock(mutex_nbrWrite);
+            break;
+        }
+        nbrWrite++;
+        mutex_unlock(mutex_nbrWrite);
+        while(rand()>RAND_MAX/10000);
         mutex_lock(mutex_writersCount);
         writersCount++;
         if(writersCount==1){ //first writer
@@ -36,12 +48,19 @@ void* writer(void* params){
             sem_post(r_sem);
         }
         mutex_unlock(mutex_writersCount);
-        while(rand()>RAND_MAX/10000);
     }
+    return NULL;
 }
 
 void* reader(void* params){
-    for(int i=0; i<2560; i++){
+    while(1){
+        mutex_lock(mutex_nbrRead);
+        if(nbrRead>=2560){
+            mutex_unlock(mutex_nbrRead);
+            break;
+        }
+        nbrRead++;
+        mutex_unlock(mutex_nbrRead);
         mutex_lock(z);
         sem_wait(r_sem);
         mutex_lock(mutex_readerCount);
@@ -62,6 +81,7 @@ void* reader(void* params){
         mutex_unlock(mutex_readerCount);
         while(rand()>RAND_MAX/10000);
     }
+    return NULL;
 }
 
 int main(int argc, char const *argv[])
@@ -75,6 +95,8 @@ int main(int argc, char const *argv[])
     mutex_readerCount=mutex_init();
     mutex_writersCount=mutex_init();
     z=mutex_init();
+    mutex_nbrWrite = mutex_init();
+    mutex_nbrRead = mutex_init();
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
@@ -96,5 +118,7 @@ int main(int argc, char const *argv[])
     mutex_destroy(mutex_readerCount);
     mutex_destroy(mutex_writersCount);
     mutex_destroy(z);
+    mutex_destroy(mutex_nbrWrite);
+    mutex_destroy(mutex_nbrRead);
     return 0;
 }
