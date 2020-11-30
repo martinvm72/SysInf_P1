@@ -3,7 +3,7 @@
 #include<stdint.h>
 #include <semaphore.h>
 #include <pthread.h>
-#include <time.h>
+#include <sys/time.h>
 
 sem_t w_sem; //semaphore for the writers
 sem_t r_sem; //semaphore for the readers
@@ -19,7 +19,9 @@ pthread_mutex_t mutex_nbrWrite;
 int size = 0;
 int TMP[640+2560];
 pthread_mutex_t mutex_TMP;
-clock_t start, mid, end;
+long start, mid, end;
+
+struct timeval tv;
 
 void write(){
     /*pthread_mutex_lock(&mutex_TMP);
@@ -110,7 +112,8 @@ int main(int argc, char const *argv[])
     pthread_mutex_init(&z,NULL);
     pthread_mutex_init(&mutex_nbrWrite,NULL);
     pthread_mutex_init(&mutex_nbrRead,NULL);
-    start = clock();
+    gettimeofday(&tv,NULL);
+    start = 1000000 * tv.tv_sec + tv.tv_usec;
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
@@ -123,12 +126,14 @@ int main(int argc, char const *argv[])
     {
         pthread_join(threads_w[i], NULL);
     }
-    mid = clock();
+    gettimeofday(&tv,NULL);
+    mid = 1000000 * tv.tv_sec + tv.tv_usec;
     for (int i = 0; i <nb_r; i++)
     {
         pthread_join(threads_r[i], NULL);
     }
-    end = clock();
+    gettimeofday(&tv,NULL);
+    end = 1000000 * tv.tv_sec + tv.tv_usec;
     sem_destroy(&w_sem);
     sem_destroy(&r_sem);
     pthread_mutex_destroy(&mutex_writersCount);
