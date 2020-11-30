@@ -33,7 +33,7 @@ all : #Compile le projet entier
 	make bt2Set
 	@echo "Build completed. Output folder: $(OUT)"
 
-run: $(SRC)	#
+run: $(SRC)	#Lance le projet compilé entier
 	bash $</scripts/script2_2.sh
 	bash $</scripts/scriptCSV_all.sh 3
 
@@ -54,6 +54,7 @@ cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 
 
 T22: $(SRC) #Compile la tâche 2.2
+	make outFolder
 	$(CC) $</Tache2_2.c -o $(OUT)/T2_2.out $(FLAGS)
 
 basic: $(S_LP) #Compile les fichiers utilisant lpthread
@@ -80,7 +81,7 @@ bt2Set: $(S_BTTS) #Compile les fichiers utilisant backoff test and test and set
 	$(CC) $</producer_consumer_btts.c -o $(O_BTTS)/prod_cons.out $(FLAGS)
 	$(CC) $</readers_writers_btts.c -o $(O_BTTS)/read_write.out $(FLAGS)
 
-outFolder:
+outFolder: #Créé les dossiers de sorties nécessaires avant la compilation du projet
 	mkdir -p $(OUT)
 	mkdir -p $(O_LP)
 	mkdir -p $(O_TS)

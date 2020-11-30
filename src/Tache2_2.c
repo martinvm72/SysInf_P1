@@ -27,7 +27,6 @@ int main(int argc, char const *argv[])
     struct args* params = (struct args *)malloc(sizeof(struct args));
     params->cycle= round(6400/N);
     int id=mutex_init();
-    printf("%d\n",id);
     for (int i = 0; i < N; i++)
     {
         params->id = id;
