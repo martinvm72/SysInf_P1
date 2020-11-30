@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
-#include "test_and_test_and_set/test_and_test_and_set.c"
+#include "../test_and_test_and_set/test_and_test_and_set.c"
 
 struct args { //Strcuture of the parameteres for the threads
     int cycle;

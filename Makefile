@@ -2,13 +2,14 @@ CC = gcc
 FLAGS := -g0 -lpthread
 
 SRC	:= src
-OUT := output
+S_T22 := $(SRC)/Tache2_2
 S_LP := $(SRC)/lpthread
 S_TS := $(SRC)/test_and_set
 S_TTS := $(SRC)/test_and_test_and_set
 S_BTTS := $(SRC)/backoff_test_and_test_and_set
 
 OUT := output
+O_T22 := $(OUT)/T22
 O_LP := $(OUT)/lpthread
 O_TS := $(OUT)/test_and_set
 O_TTS := $(OUT)/test_and_test_and_set
@@ -53,9 +54,11 @@ cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 
 
 
-T22: $(SRC) #Compile la tâche 2.2
+T22: $(S_T22) #Compile la tâche 2.2
 	make outFolder
-	$(CC) $</Tache2_2.c -o $(OUT)/T2_2.out $(FLAGS)
+	$(CC) $</ts.c -o $(O_T22)/ts.out $(FLAGS)
+	$(CC) $</ts.c -o $(O_T22)/tts.out $(FLAGS)
+	$(CC) $</ts.c -o $(O_T22)/btts.out $(FLAGS)
 
 basic: $(S_LP) #Compile les fichiers utilisant lpthread
 	make outFolder
@@ -83,6 +86,7 @@ bt2Set: $(S_BTTS) #Compile les fichiers utilisant backoff test and test and set
 
 outFolder: #Créé les dossiers de sorties nécessaires avant la compilation du projet
 	mkdir -p $(OUT)
+	mkdir -p $(O_T22)
 	mkdir -p $(O_LP)
 	mkdir -p $(O_TS)
 	mkdir -p $(O_TTS)
