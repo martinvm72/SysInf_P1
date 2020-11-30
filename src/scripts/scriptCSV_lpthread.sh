@@ -1,6 +1,6 @@
 #!/bin/bash
 cd output/lpthread
-echo "Nbr threads,Time">../../src/CSV/lpthread/prodCons.csv
+'''echo "Nbr threads,Time">../../src/CSV/lpthread/prodCons.csv
 for j in $(seq 2 $1);do
     echo $j
     for i in {1..5};do
@@ -19,7 +19,7 @@ for j in $(seq 2 $1);do
         /usr/bin/time -ao ../../src/CSV/lpthread/philosophes.csv -f %e ./philo.out $j 
     done
 done
-echo "Philosophes done"
+echo "Philosophes done"'''
 
 
 echo "Nbr threads,Time">../../src/CSV/lpthread/readerWriter.csv

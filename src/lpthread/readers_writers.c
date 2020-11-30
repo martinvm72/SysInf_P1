@@ -16,9 +16,23 @@ int nbrRead = 0;
 int nbrWrite = 0;
 pthread_mutex_t mutex_nbrRead;
 pthread_mutex_t mutex_nbrWrite;
+int size = 0;
+int TMP[640+2560];
+pthread_mutex_t mutex_TMP;
+clock_t start, mid, end;
 
-void write(){}
-void read(){}
+void write(){
+    /*pthread_mutex_lock(&mutex_TMP);
+    TMP[size] = 0;
+    size++;
+    pthread_mutex_unlock(&mutex_TMP);*/
+}
+void read(){
+    /*pthread_mutex_lock(&mutex_TMP);
+    TMP[size] = 1;
+    size++;
+    pthread_mutex_unlock(&mutex_TMP);*/
+}
 
 void* writer(void* params){
     while(1){
@@ -92,9 +106,11 @@ int main(int argc, char const *argv[])
     sem_init(&r_sem, 0, 1);
     pthread_mutex_init(&mutex_readerCount,NULL);
     pthread_mutex_init(&mutex_writersCount,NULL);
+    pthread_mutex_init(&mutex_TMP,NULL);
     pthread_mutex_init(&z,NULL);
     pthread_mutex_init(&mutex_nbrWrite,NULL);
     pthread_mutex_init(&mutex_nbrRead,NULL);
+    start = clock();
     for (int i = 0; i <nb_w; i++)
     {
         pthread_create(&threads_w[i], NULL, &writer, NULL);
@@ -107,16 +123,27 @@ int main(int argc, char const *argv[])
     {
         pthread_join(threads_w[i], NULL);
     }
+    mid = clock();
     for (int i = 0; i <nb_r; i++)
     {
         pthread_join(threads_r[i], NULL);
     }
+    end = clock();
     sem_destroy(&w_sem);
     sem_destroy(&r_sem);
     pthread_mutex_destroy(&mutex_writersCount);
     pthread_mutex_destroy(&mutex_readerCount);
+    pthread_mutex_destroy(&mutex_TMP);
     pthread_mutex_destroy(&z);
     pthread_mutex_destroy(&mutex_nbrWrite);
     pthread_mutex_destroy(&mutex_nbrRead);
+    FILE *file;
+    file = fopen("dahtah.txt", "a");
+    /*for(int i=0; i<3200; i++){
+        fprintf(file, "%d", TMP[i]);
+    }
+    fprintf(file, "\n");*/
+    fprintf(file, "%ld %ld %ld\n", start, mid, end);
+    fclose(file);
     return 0;
 }
