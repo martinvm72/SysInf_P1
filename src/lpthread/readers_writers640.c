@@ -53,7 +53,7 @@ void* writer(void* params){
 void* reader(void* params){
     while(1){
         pthread_mutex_lock(&mutex_nbrRead);
-        if(nbrRead>=2560){
+        if(nbrRead>=640){
             pthread_mutex_unlock(&mutex_nbrRead);
             break;
         }

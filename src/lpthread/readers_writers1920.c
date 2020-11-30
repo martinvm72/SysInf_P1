@@ -53,7 +53,7 @@ void* writer(void* params){
 void* reader(void* params){
     while(1){
         pthread_mutex_lock(&mutex_nbrRead);
-        if(nbrRead>=2560){
+        if(nbrRead>=1920){
             pthread_mutex_unlock(&mutex_nbrRead);
             break;
         }
@@ -95,17 +95,9 @@ int main(int argc, char const *argv[])
     pthread_mutex_init(&z,NULL);
     pthread_mutex_init(&mutex_nbrWrite,NULL);
     pthread_mutex_init(&mutex_nbrRead,NULL);
-    for (int i = 0; i <nb_w; i++)
-    {
-        pthread_create(&threads_w[i], NULL, &writer, NULL);
-    }
     for (int i = 0; i <nb_r; i++)
     {
         pthread_create(&threads_r[i], NULL, &reader, NULL);
-    }
-    for (int i = 0; i <nb_w; i++)
-    {
-        pthread_join(threads_w[i], NULL);
     }
     for (int i = 0; i <nb_r; i++)
     {
