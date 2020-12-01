@@ -35,8 +35,8 @@ all : #Compile le projet entier
 	@echo "Build completed. Output folder: $(OUT)"
 
 run: $(SRC)	#Lance le projet compilé entier
-	#bash $</scripts/script2_2.sh
-	bash $</scripts/scriptCSV_all.sh 8
+	bash $</scripts/script2_2.sh
+	bash $</scripts/scriptCSV_all.sh 16
 
 graphs: $(SRC) #Créés les graphes, à utiliser après avoir créé les CSV
 	python3 $</graphs.py
