@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS := -g0 -lpthread
 
-CORES = `grep processor /proc/cpuinfo | wc -l` #Le nombre de coeurs de la machine
+CORES = `grep processor /proc/cpuinfo | wc -l` #Nombre de coeurs de la machine
 
 SRC	:= src
 S_T22 := $(SRC)/Tache2_2
@@ -24,28 +24,36 @@ mega: #tout.
 	make clean
 	make all
 	make run
+	make test
 	make graphs
+	@echo "Bonne journée!"
 
 all : #Compile le projet entier
-	@echo "Complete build of the project in progress..."
+	@echo "Compilation du projet en cours..."
 	make outFolder
-	make T22
+	make verrous
 	make basic
 	make tSet
 	make t2Set
 	make bt2Set
-	@echo "Build completed. Output folder: $(OUT)"
+	@echo "Compilation terminée"
 
 run: $(SRC)	#Lance le projet compilé entier
-	bash $</scripts/script2_2.sh
-	bash $</scripts/scriptCSV_all.sh 2*$(CORES)
+	@echo "Lancement du projet sur $$(( 2 * $(CORES) )) threads..."
+	bash $</scripts/scriptCSV_all.sh 2 
+	#$$(( 2 * $(CORES) ))
+	@echo "Projet terminé - CSV générés"
 
 graphs: $(SRC) #Créés les graphes, à utiliser après avoir créé les CSV
+	@echo "Graphes en construction..."
 	python3 $</graphs.py
+	@echo "Graphes tracés"
 
 clean: #Supprime tous les fichiers compilés & les CSV
+	@echo "Nettoyage en cours..."
 	make cleanOut
 	make cleanCSV
+	@echo "Nettoyage terminé"
 
 cleanOut: #Supprime tous les fichiers compilés
 	rm -rf $(OUT)
@@ -53,9 +61,17 @@ cleanOut: #Supprime tous les fichiers compilés
 cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 	find $< -type f -delete
 
+cleanGraphes: $(OUT)
+	#find $< -type f -delete
+
+test: $(S_T22) #Compile la tâche 2.2
+	@echo "Tests des verrous en cours..."
+	make verrous
+	bash src/scripts/script2_2.sh $$(( 2 * $(CORES) ))
+	@echo "Tests des verrous terminés"
 
 
-T22: $(S_T22) #Compile la tâche 2.2
+verrous: $(S_T22)
 	make outFolder
 	$(CC) $</ts.c -o $(O_T22)/ts.out $(FLAGS)
 	$(CC) $</ts.c -o $(O_T22)/tts.out $(FLAGS)
@@ -96,4 +112,5 @@ outFolder: #Créé les dossiers de sorties nécessaires avant la compilation du 
 	mkdir -p src/CSV/ts
 	mkdir -p src/CSV/tts
 	mkdir -p src/CSV/btts
+
 # LANDO NORRIS <3

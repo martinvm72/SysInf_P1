@@ -5,7 +5,7 @@ import statistics as stt
 
 
 #####################################################################################
-allImpl = False # Choose your mutex implementation here!!!!! False => lpthread only; True => all
+allImpl = True # Choose your mutex implementation here!!!!! False => lpthread only; True => all
 probleme = 2 # Choose your probleme here!!!!! ONLY ONE
 #####################################################################################
 
@@ -29,7 +29,7 @@ plt.ylabel('temps moyen (secondes)', fontsize=3*dim)
 
 #read all CSV's data
 for j, folder in enumerate(folders):
-    data = pd.read_csv("src/CSV_AWS8/" + folder + "/" + file + ".csv")
+    data = pd.read_csv("src/CSV/" + folder + "/" + file + ".csv")
     time = data["Time"]
     means = []
     stds = [] #Standard deviations
