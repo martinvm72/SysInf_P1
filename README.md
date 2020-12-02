@@ -9,7 +9,7 @@ make mega: super commande qui clean, compile et lance et trace les graphes pour 
 
 ## Comment utiliser les verrous
 
-Chacun d'entre eux possède 4 foncions de muetx et 4 fonctions de sémaphores sembables aux fonctions de lpthread: 
+Chacun d'entre eux possède 4 foncions de mutex et 4 fonctions de sémaphores sembables aux fonctions de lpthread: 
 | Fonctions | Argument | Sortie | Description |
 | --- | --- | --- | --- |
 | mutex_init | / | L'ID du mutex (int) OU -1 en cas d'erreur | Initialise le mutex |
