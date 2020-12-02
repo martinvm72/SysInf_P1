@@ -1,6 +1,8 @@
 CC = gcc
 FLAGS := -g0 -lpthread
 
+CORES = `grep processor /proc/cpuinfo | wc -l` #Le nombre de coeurs de la machine
+
 SRC	:= src
 S_T22 := $(SRC)/Tache2_2
 S_LP := $(SRC)/lpthread
@@ -36,7 +38,7 @@ all : #Compile le projet entier
 
 run: $(SRC)	#Lance le projet compilé entier
 	bash $</scripts/script2_2.sh
-	bash $</scripts/scriptCSV_all.sh 16
+	bash $</scripts/scriptCSV_all.sh 2*$(CORES)
 
 graphs: $(SRC) #Créés les graphes, à utiliser après avoir créé les CSV
 	python3 $</graphs.py
@@ -45,9 +47,8 @@ clean: #Supprime tous les fichiers compilés & les CSV
 	make cleanOut
 	make cleanCSV
 
-cleanOut: $(OUT) #Supprime tous les fichiers compilés
-	make outFolder
-	find $< -type f -delete
+cleanOut: #Supprime tous les fichiers compilés
+	rm -rf $(OUT)
 
 cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 	find $< -type f -delete
@@ -95,3 +96,4 @@ outFolder: #Créé les dossiers de sorties nécessaires avant la compilation du 
 	mkdir -p src/CSV/ts
 	mkdir -p src/CSV/tts
 	mkdir -p src/CSV/btts
+# LANDO NORRIS <3
