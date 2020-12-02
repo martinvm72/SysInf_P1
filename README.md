@@ -37,10 +37,11 @@ Chacun d'entre eux possède 4 foncions de mutex et 4 fonctions de sémaphores se
 
 
 ## Organisation des fichiers
-```
+´´´
 Projet
-│   Makefile
-│   README.md    
+│   Rapport.pdf
+│   README.md
+│   Makefile   
 │
 └───src
 │   │   graphs.py       #Génère les graphes liés aux problèmes
@@ -86,7 +87,7 @@ Projet
     |   │   philo.out  
     |   ...
     ...
-```
+´´´
 ## Infos supplémentaires sur les arguments des programmes
 * philosophes.c : 1 argument, le nombre de threads
 * producer_consumer.c : 2 arguments, le nombre de producteurs puis le nombre de consommateurs
