@@ -86,8 +86,7 @@ Projet
     ...
 ```
 ## Infos supplémentaires sur les arguments des programmes
-### Fichiers C
 * philosophes.c : 1 argument, le nombre de threads
 * producer_consumer.c : 2 arguments, le nombre de producteurs puis le nombre de consommateurs
 * readers_writers.c : 2 arguments, le nombre d'écrivains puis le nombre de lecteurs
-### Scripts bash
+* tous les scripts : 1 argument, le nombre de threads maximum
