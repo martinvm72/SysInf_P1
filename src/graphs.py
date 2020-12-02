@@ -41,7 +41,7 @@ for i, file in enumerate(files):
         #Calcul et dessin du graphe
         x = range(2, len(means)+2)
         plots[i].plot(x, means, color=colors[j], label=leg[j], linewidth=dim//3)
-        markers, caps, bars = plots[i].errorbar(x, means, stds, fmt='none', ecolor=colors[j], lw = dim//3, capsize=dim, capthick=dim//3) #Affiche les déviations standards
+        #markers, caps, bars = plots[i].errorbar(x, means, stds, fmt='none', ecolor=colors[j], lw = dim//3, capsize=dim, capthick=dim//3) #Affiche les déviations standards
         plots[i].tick_params(labelsize = 2*dim)
     plots[i].set_ylim(ymin = 0)
     plots[i].legend(fontsize = 2*dim)

@@ -46,7 +46,7 @@ for j, folder in enumerate(folders):
     #Calcul et dessin du graphe
     x = range(2, len(means)+2)
     plt.plot(x, means, color=colors[j], label=leg[j], linewidth=dim//3)
-    markers, caps, bars = plt.errorbar(x, means, stds, fmt='none', ecolor=colors[j], lw = dim//3, capsize=dim, capthick=dim//3) #Plot the standard deviation
+    #markers, caps, bars = plt.errorbar(x, means, stds, fmt='none', ecolor=colors[j], lw = dim//3, capsize=dim, capthick=dim//3) #Plot the standard deviation
     plt.tick_params(labelsize = 2*dim)
 plt.ylim(ymin = 0)
 plt.grid(which='both')
