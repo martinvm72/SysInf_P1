@@ -5,14 +5,14 @@ Martin Van Mollekot & Arthur Vandroogenbroek
 ### Principales:
 * make all : Compile le projet entier
 * make run : Excecute le projet compilé et génère les fichiers CSV (soyez sur d'avoir compilé le projet avant)
+* make test : Test sur les implémentations de verrous
 * make clean : Supprime les fichiers compilés et les CSV
 
 ### Extra:
-* make mega : super commande qui clean, compile et lance et trace les graphes pour l'ensemble du projet
+* make mega : super commande qui clean, compile, lance les tests et le projet et trace les graphes pour l'ensemble du projet
 * make graphs : trace les graphes python (nécessite d'avoir les CSV disponibles)
 * make cleanOut : Supprime les fichiers compilés
 * make cleanCSV : Supprime les CSV
-* make T22 : Compile les tests de verrous
 * make basic : Compile les 3 problèmes avec l'implémentation lpthread
 * make tSet : Compile les 3 problèmes avec l'implémentation test and set
 * make t2Set : Compile les 3 problèmes avec l'implémentation test and test and set
