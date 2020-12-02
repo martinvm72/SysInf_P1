@@ -7,8 +7,22 @@ make run: Excecute le projet compilé et génère les fichiers CSV (soyez sur d'
 make clean: Supprime les fichiers compilés \
 make mega: super commande qui clean, compile et lance et trace les graphes pour l'ensemble du projet
 
-## Organisation des fichiers
+## Comment utiliser les verrous
 
+Chacun d'entre eux possède 4 foncions de muetx et 4 fonctions de sémaphores sembables aux fonctions de lpthread: 
+| Fonctions | Argument | Sortie | Description |
+| --- | --- | --- | --- |
+| mutex_init | / | L'ID du mutex (int) OU -1 en cas d'erreur | Initialise le mutex |
+| mutex_lock | L'ID du mutex | / | Verouille le mutex |
+| mutex_unlock | L'ID du mutex | / | Déverouille le mutex |
+| mutex_destroy | L'ID du mutex | / | Détruit le mutex |
+| sem_init | La valeur initiale du sémaphore (int) | L'ID du sémaphore (int) OU -1 en cas d'erreur | Initialise le sémaphore à la valeur initiale |
+| sem_lock | L'ID du sémaphore | / | Verouille le sémaphore |
+| sem_unlock | L'ID du sémaphore | / | Déverouille le sémaphore |
+| sem_destroy | L'ID du sémaphore | / | Détruit le sémaphore |
+
+
+## Organisation des fichiers
 ```
 Projet
 │   Makefile
