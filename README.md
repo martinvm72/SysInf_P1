@@ -9,8 +9,9 @@ Martin Van Mollekot & Arthur Vandroogenbroek
 * make clean : Supprime les fichiers compilés et les CSV
 
 ### Extra:
-* make mega : super commande qui clean, compile, lance les tests et le projet et trace les graphes pour l'ensemble du projet
-* make graphs : trace les graphes python (nécessite d'avoir les CSV disponibles)
+* make mega : Super commande qui clean, compile, lance les tests et le projet et trace les graphes pour l'ensemble du projet
+* make graphs : Trace les graphes python (nécessite d'avoir les CSV disponibles)
+* make verrous : Compile les verrous
 * make cleanOut : Supprime les fichiers compilés
 * make cleanCSV : Supprime les CSV
 * make basic : Compile les 3 problèmes avec l'implémentation lpthread
