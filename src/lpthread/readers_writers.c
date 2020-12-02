@@ -29,7 +29,7 @@ void* writer(void* params){
         }
         nbrWrite++;
         pthread_mutex_unlock(&mutex_nbrWrite);
-        while(rand()>RAND_MAX/10000);
+        while(rand()>RAND_MAX/1000);
         pthread_mutex_lock(&mutex_writersCount);
         writersCount++;
         if(writersCount==1){ //first writer
@@ -77,7 +77,7 @@ void* reader(void* params){
             sem_post(&w_sem);
         }
         pthread_mutex_unlock(&mutex_readerCount);
-        while(rand()>RAND_MAX/10000);
+        while(rand()>RAND_MAX/1000);
     }
     return NULL;
 }

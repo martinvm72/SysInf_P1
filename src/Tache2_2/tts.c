@@ -14,7 +14,7 @@ void* lock_test(void* params){
     if(id==-1) printf("OUPS... SOMETHING WENT WRONG!");
     for(int i=0; i<((struct args*)params)->cycle; i++){
         mutex_lock(id);
-        while(rand()>RAND_MAX/10000);
+        while(rand()>RAND_MAX/1000);
         mutex_unlock(id);
     }
     return NULL;
