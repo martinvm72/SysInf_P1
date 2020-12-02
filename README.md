@@ -14,6 +14,7 @@ Martin Van Mollekot & Arthur Vandroogenbroek
 * make verrous : Compile les verrous
 * make cleanOut : Supprime les fichiers compilés
 * make cleanCSV : Supprime les CSV
+* make cleanGraphes : #Supprime les graphes
 * make basic : Compile les 3 problèmes avec l'implémentation lpthread
 * make tSet : Compile les 3 problèmes avec l'implémentation test and set
 * make t2Set : Compile les 3 problèmes avec l'implémentation test and test and set
