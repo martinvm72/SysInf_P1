@@ -38,7 +38,7 @@ for i, file in enumerate(files):
             means.append(sum(raw)/5)
             stds.append(stt.stdev(raw))
 
-        #Calcul du graphe
+        #Calcul et dessin du graphe
         x = range(2, len(means)+2)
         plots[i].plot(x, means, color=colors[j], label=leg[j], linewidth=dim//3)
         markers, caps, bars = plots[i].errorbar(x, means, stds, fmt='none', ecolor=colors[j], lw = dim//3, capsize=dim, capthick=dim//3) #Affiche les déviations standards

@@ -35,6 +35,8 @@ for i, time in enumerate([data_ts, data_tts, data_btts]):
         raw = np.array(time[k*5:k*5+5])
         means.append(sum(raw)/5)
         stds.append(stt.stdev(raw))
+    
+    #Dessin du graphe
     plt.plot(x, means, color=colors[i], label=leg[i], linewidth=dim//3)
     markers, caps, bars = plt.errorbar(x, means, stds, fmt='none', ecolor=colors[i], lw = dim//3, capsize=dim, capthick=dim//3) #Affiche les déviations standards
 plt.tick_params(labelsize = 2*dim)

@@ -3,6 +3,7 @@ FLAGS := -g0 -lpthread
 
 CORES = `grep processor /proc/cpuinfo | wc -l` #Nombre de coeurs de la machine
 
+#Dossiers sources
 SRC	:= src
 S_T22 := $(SRC)/Tache2_2
 S_LP := $(SRC)/lpthread
@@ -10,6 +11,7 @@ S_TS := $(SRC)/test_and_set
 S_TTS := $(SRC)/test_and_test_and_set
 S_BTTS := $(SRC)/backoff_test_and_test_and_set
 
+#Dossiers cibles
 OUT := output
 O_T22 := $(OUT)/T22
 O_LP := $(OUT)/lpthread
@@ -40,8 +42,7 @@ all : #Compile le projet entier
 
 run: $(SRC)	#Lance le projet compilé entier
 	@echo "Lancement du projet sur $$(( 2 * $(CORES) )) threads..."
-	bash $</scripts/scriptCSV_all.sh 2 
-	#$$(( 2 * $(CORES) ))
+	bash $</scripts/scriptCSV_all.sh $$(( 2 * $(CORES) ))
 	@echo "Projet terminé - CSV générés"
 
 graphs: $(SRC) #Créés les graphes, à utiliser après avoir créé les CSV
@@ -53,6 +54,7 @@ clean: #Supprime tous les fichiers compilés & les CSV
 	@echo "Nettoyage en cours..."
 	make cleanOut
 	make cleanCSV
+	make cleanGraphes
 	@echo "Nettoyage terminé"
 
 cleanOut: #Supprime tous les fichiers compilés
@@ -61,8 +63,8 @@ cleanOut: #Supprime tous les fichiers compilés
 cleanCSV: $(SRC)/CSV #Supprime tous les fichiers CSV
 	find $< -type f -delete
 
-cleanGraphes: $(OUT)
-	#find $< -type f -delete
+cleanGraphes: #Supprime les graphes
+	rm -f *.png
 
 test: $(S_T22) #Compile la tâche 2.2
 	@echo "Tests des verrous en cours..."
